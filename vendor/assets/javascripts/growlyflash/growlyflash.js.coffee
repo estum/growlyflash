@@ -1,4 +1,4 @@
-#= require bootstrap-growl
+#= require growlyflash/bootstrap-growl
 
 # unless $.Growlyflash then $.Growlyflash = $.bootstrapGrowl
 
