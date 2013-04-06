@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Tõnis Simo"]
   spec.email         = ["anton.estum@gmail.com"]
   spec.homepage      = "https://github.com/tonissimo/growlyflash"
-  spec.summary       = %q{Growl-styled flash messages for Ruby on Rails and Bootstrap}
-  spec.description   = %q{Show flash messages via AJAX}
+  spec.summary       = %q{Tiny gem which provides growl-styled flash messages for Ruby on Rails with Bootstrap.}
+  spec.description   = %q{For XHR requests flash messages are transfering in 'X-Messages' headers, otherwise they are storing in js variables.}
 
   spec.files         = `git ls-files`.split($/)
   spec.require_paths = %w(lib vendor)

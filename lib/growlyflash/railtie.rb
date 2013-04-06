@@ -1,6 +1,7 @@
 if defined?(Rails::Railtie)
   module Growlyflash
-    class Railtie < Rails::Railtie
+    
+    class Railtie < ::Rails::Railtie
       # initializer 'growlyflash.active_controller' do
       initializer :growlyflash do
         Growlyflash.initialize

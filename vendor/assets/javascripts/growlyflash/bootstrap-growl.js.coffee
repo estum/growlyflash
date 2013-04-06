@@ -15,11 +15,13 @@ $.extend
       stackup_spacing: 10
     
     settings = $.extend settings, options
+    
+    console.log settings
   
     html_attrs = 
-      class: 'bootstrap-grow alert'
+      class: 'bootstrap-growl alert'
       html: ''
-    html_attrs.class += "alert-#{settings.type}" if settings.type?
+    html_attrs.class += " alert-#{settings.type}" if settings.type?
     html_attrs.html += """<a class="close" data-dismiss="alert" href="#">&times;</a>""" if settings.allow_dismiss
     html_attrs.html += message
   
@@ -35,12 +37,12 @@ $.extend
       offsetAmount = Math.max(offsetAmount, parseInt($(@).css(settings.offset.from)) + $(@).outerHeight() + settings.stackup_spacing)
 
     $alert.css
-      "#{settings.offset.from}": "#{offsetAmount}px"
-      position: ((settings.ele == 'body') ? 'fixed' : 'absolute')
+      position: (if (settings.ele == 'body') then 'fixed' else 'absolute')
       margin: 0
       zIndex: 9999
       display: 'none'
-      width: ((settings.width != 'auto') ? "#{settings.width}px" : 'auto')
+      width: (if (settings.width != 'auto') then "#{settings.width}px" else 'auto')
+    $alert.css settings.offset.from, "#{offsetAmount}px"
 
     # have to append before we can use outerWidth()
     $(settings.ele).append $alert
