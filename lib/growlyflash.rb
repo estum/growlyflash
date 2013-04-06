@@ -13,6 +13,10 @@ module Growlyflash
   end
 end
 
+if defined?(Rails)
+  require 'growlyflash/engine'
+end
+
 if defined?(Rails::Railtie)
   require 'growlyflash/railtie'
 end
