@@ -1,5 +1,6 @@
 require "growlyflash/version"
 require "growlyflash/controller"
+require "growlyflash/helpers"
 
 module Growlyflash
   # Your code goes here...
