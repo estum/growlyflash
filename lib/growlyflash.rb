@@ -4,19 +4,9 @@ require "growlyflash/version"
 require "uri"
 
 module Growlyflash
-  # class << self
-  #   def logger
-  #     @@logger ||= nil
-  #   end
-  # 
-  #   def logger=(logger)
-  #     @@logger = logger
-  #   end
-  # end
   
   module XMessageHeaders
     def flash_to_headers
-      # logger.info(response.headers)
       xmessage = URI.escape(Hash[flash].to_json)  # URI escape to fix strange things with headers encoding
       response.headers['X-Message'] = xmessage    
       flash.discard                               # discard flash to prevent it appear again after refreshing page
@@ -28,6 +18,7 @@ module Growlyflash
       end
   end
   
+  
   module NoticeHelpers
     def growlyflash_static_notices
       return nil unless flash.any?
@@ -35,10 +26,10 @@ module Growlyflash
     end
   end
   
-  class Engine < ::Rails::Engine
+  
+  class Engine < ::Rails::Engine   
     initializer :growlyflash_xmessage_headers do |config|
-      # Growlyflash.logger = ::Rails.logger
-      
+   
       ActionController::Base.class_eval do
         include XMessageHeaders
         helper NoticeHelpers
@@ -48,5 +39,4 @@ module Growlyflash
       
     end
   end
-
 end
