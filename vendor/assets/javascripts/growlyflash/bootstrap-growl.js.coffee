@@ -16,8 +16,6 @@ $.extend
     
     settings = $.extend settings, options
     
-    console.log settings
-  
     html_attrs = 
       class: 'bootstrap-growl alert'
       html: ''
