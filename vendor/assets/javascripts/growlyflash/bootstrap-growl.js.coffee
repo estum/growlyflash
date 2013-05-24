@@ -2,54 +2,63 @@
 
 $ = jQuery
 
-$.extend
-  bootstrapGrowl: (message, options) ->
-    settings =
-      ele: 'body'
-      type: null
-      offset: from:'top',  amount:20
-      align: "right"
-      width: 250
-      delay: 4000
-      allow_dismiss: true
-      stackup_spacing: 10
-    
-    settings = $.extend settings, options
-    
-    html_attrs = 
-      class: 'bootstrap-growl alert'
-      html: ''
-    html_attrs.class += " alert-#{settings.type}" if settings.type?
-    html_attrs.html += """<a class="close" data-dismiss="alert" href="#">&times;</a>""" if settings.allow_dismiss
-    html_attrs.html += message
-  
-    $alert = $ '<div />', html_attrs
+old = $.bootstrapGrowl
 
-    # Prevent BC breaks
-    if settings.top_offset?
-      settings.offset = from:'top',  amount:settings.top_offset
+$.bootstrapGrowl = (message, options) ->
+  settings = $.extend {}, $.bootstrapGrowl.defaults, options
 
-    # calculate any 'stack-up'
-    offsetAmount = settings.offset.amount
-    $(".bootstrap-growl").each ->
-      offsetAmount = Math.max(offsetAmount, parseInt($(@).css(settings.offset.from)) + $(@).outerHeight() + settings.stackup_spacing)
+  html_attrs = 
+    class: 'bootstrap-growl alert'
+    html: ''
+  html_attrs.class += " alert-#{settings.type}" if settings.type?
+  html_attrs.html += """<a class="close" data-dismiss="alert" href="#">&times;</a>""" if settings.can_dismiss
+  html_attrs.html += message
 
-    $alert.css
-      position: (if (settings.ele == 'body') then 'fixed' else 'absolute')
-      margin: 0
-      zIndex: 9999
-      display: 'none'
-      width: (if (settings.width != 'auto') then "#{settings.width}px" else 'auto')
-    $alert.css settings.offset.from, "#{offsetAmount}px"
+  DivAlert = $ '<div />', html_attrs
 
-    # have to append before we can use outerWidth()
-    $(settings.ele).append $alert
-    $alert.css switch settings.align
-      when "center" then left:'50%', marginLeft:"-#{($alert.outerWidth() / 2)}px"
-      when "left"   then left:'20px'
-      else right:'20px'
-    $alert.fadeIn()
+  # calculate any 'stack-up'
+  offset = settings.offset.amount
+  $(".bootstrap-growl").each ->
+    offset_from  = parseInt $(@).css settings.offset.from
+    height = $(@).outerHeight()
+    offset = Math.max offset, offset_from + height + settings.spacing
 
-    # Only remove after delay if delay is more than 0
-    if settings.delay > 0
-      $alert.delay(settings.delay).fadeOut -> $(@).remove()
+  DivAlert.css
+    position: (if settings.target is 'body' then 'fixed' else 'absolute')
+    margin: 0
+    zIndex: 9999
+    display: 'none'
+    width: (if settings.width isnt 'auto' then "#{settings.width}px" else 'auto')
+
+  DivAlert.css settings.offset.from, "#{offset}px"
+
+  # have to append before we can use outerWidth()
+  $(settings.target).append DivAlert
+
+  DivAlert.css switch settings.align
+    when "center" then left: '50%', marginLeft:"-#{DivAlert.outerWidth() / 2}px"
+    when "left"   then left: '20px'
+    else right: '20px'
+  DivAlert.fadeIn()
+
+  # Only remove after delay if delay is more than 0
+  if settings.delay > 0
+    DivAlert.delay(settings.delay).fadeOut -> $(@).remove()
+
+  @
+
+$.bootstrapGrowl.defaults = 
+  width:    250
+  delay:    4000
+  spacing:  10  
+  target:   'body'
+  align:    'right'
+  dismiss:  true
+  type:     null
+  offset:   
+    from:   'top'
+    amount: 20
+
+$.bootstrapGrowl.noConflict = ->
+  $.bootstrapGrowl = old
+  @

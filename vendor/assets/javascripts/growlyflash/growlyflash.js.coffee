@@ -45,12 +45,12 @@ class Growlyflash
     do callback
   
   get_log_matches: (messages) ->
-    last_log = @flashes_log.slice -messages.length
+    last_log = @flash_log.slice -messages.length
     not_matches = 0
     not_matches++ for id, f of messages when (last_log[id].type isnt f.type) and (last_log[id].msg isnt f.msg)
     not_matches > 0
 
 root.Growlyflash = Growlyflash
 
-jQuery ->
+$ ->
   new Growlyflash document
