@@ -38,8 +38,8 @@ $.bootstrapGrowl = (message, options) ->
 
   box_alert.css switch settings.align
     when "center" then left: '50%', marginLeft:"-#{box_alert.outerWidth() / 2}px"
-    when "left"   then left: '20px'
-    else right: '20px'
+    when "left"   then left: "#{settings.alignAmount}px"
+    else right: "#{settings.alignAmount}px"
   box_alert.fadeIn()
 
   # Only remove after delay if delay is more than 0
@@ -53,6 +53,7 @@ $.bootstrapGrowl.defaults =
   spacing:  10  
   target:   'body'
   align:    'right'
+  alignAmount: 20
   dismiss:  true
   type:     null
   offset:   
