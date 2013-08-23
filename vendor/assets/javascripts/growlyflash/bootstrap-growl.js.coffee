@@ -17,7 +17,7 @@ do ($ = jQuery) ->
     alignAmount = css_metrics_val alignAmount
     
     box_alert = $ """
-                  <div class="#{alert_classes_add type}">
+                  <div class="#{alert_classes_add(type).join(" ")}">
                     #{'<a class="close" data-dismiss="alert" href="#">&times;</a>' if dismiss}
                     #{message}
                   </div>
