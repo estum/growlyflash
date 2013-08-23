@@ -65,6 +65,21 @@ $.bootstrapGrowl.defaults = $.extend on, $.bootstrapGrowl.defaults,
     amount:    20
 ````
 
+Insert the following if you want to close alert boxes by clicking on themselves. 
+Also it doesn't steel focus from toggled elements like dropdowns and works fine with touch devices, 
+so I advise to use it:
+````coffee
+jQuery ->
+  # ...
+  $(document).on 'click.alert.data-api', '[data-dismiss="alert"]', (e) -> 
+    e.stopPropagation()
+  
+  $(document).on 'touchstart click', ".bootstrap-growl", (e) -> 
+    e.stopPropagation()
+    $('[data-dismiss="alert"]', @).click()
+    off
+````
+
 ## Contributing
 
 1. Fork it
