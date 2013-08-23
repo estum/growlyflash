@@ -44,11 +44,9 @@ do ($ = jQuery) ->
       else right: alignAmount
     
     box_alert.fadeIn()
-    
     # Only remove after delay if delay is more than 0
-    if delay > 0
-      box_alert.delay(settings.delay).fadeOut -> $(@).remove()
-
+    box_alert.delay(delay).fadeOut(-> $(@).remove()) if delay > 0
+    
     return this
   
   
