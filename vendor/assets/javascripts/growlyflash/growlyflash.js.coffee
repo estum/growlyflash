@@ -26,7 +26,7 @@ class Growlyflash
   growl: (flashes) ->
     for type, msg of flashes when msg?
       @log type: type, msg: msg
-      $.bootstrapGrowl msg, type: TYPE_MAPPING[type], icon: ICON_MAPPING[type]
+      $.bootstrapGrowl msg, type: TYPE_MAPPING[type], iconType: ICON_MAPPING[type]
   
   log: (xmessage) -> @flash_log.push(xmessage)
   log_isnt_empty: -> @flash_log.length > 0
