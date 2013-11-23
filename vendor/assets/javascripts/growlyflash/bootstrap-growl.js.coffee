@@ -22,7 +22,7 @@ do ($ = jQuery) ->
     box_alert = $ """
                   <div class="#{alert_classes_add(type).join(" ")}">
                     #{("<span class='#{icon_classes_add(iconType).join(" ")}'></span>" if showIcon) || ""}
-                    #{'<a class="close" data-dismiss="alert" href="#">&times;</a>' if dismiss}
+                    #{('<a class="close" data-dismiss="alert" href="#">&times;</a>' if dismiss) || ""}
                     #{message}
                   </div>
                   """
