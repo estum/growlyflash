@@ -4,8 +4,8 @@ root = window ? this
 
 class Growlyflash
   TYPE_MAPPING =
-    warning: null
-    error  : 'error'
+    warning: 'warning'
+    error  : 'danger'
     notice : 'info'
     success: 'success'
     
