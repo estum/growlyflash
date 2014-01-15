@@ -20,7 +20,7 @@ module Growlyflash
   module NoticeHelpers
     def growlyflash_static_notices
       return nil unless flash.any?
-      javascript_tag "window.flashes = #{raw(Hash[flash].to_json)};", defer: 'defer'
+      javascript_tag "window.flashes = #{raw(Hash[flash].except!(:timedout).to_json)};", defer: 'defer'
     end
   end
   
