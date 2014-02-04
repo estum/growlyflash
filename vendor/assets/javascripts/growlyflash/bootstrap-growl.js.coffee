@@ -5,6 +5,9 @@ do ($ = jQuery) ->
   
   alert_classes_add = (list...) -> 
     ['bootstrap-growl', 'alert'].concat("alert-#{type}" for type in list when type?)
+
+  icon_classes_add = (list...) ->
+    ['glyphicon'].concat("glyphicon-#{type}" for type in list when type?)
   
   css_metrics_val = (val) ->
     str = "#{val ? 0}"
@@ -12,13 +15,14 @@ do ($ = jQuery) ->
     str
   
   $.bootstrapGrowl = (message, options) ->
-    {width, delay, spacing, target, align, alignAmount, dismiss, type, offset} = $.extend({}, $.bootstrapGrowl.defaults, options)
+    {width, delay, spacing, target, align, alignAmount, dismiss, type, offset, iconType, showIcon} = $.extend({}, $.bootstrapGrowl.defaults, options)
     width = css_metrics_val width
     alignAmount = css_metrics_val alignAmount
     
     box_alert = $ """
                   <div class="#{alert_classes_add(type).join(" ")}">
-                    #{'<a class="close" data-dismiss="alert" href="#">&times;</a>' if dismiss}
+                    #{("<span class='#{icon_classes_add(iconType).join(" ")}'></span>" if showIcon) || ""}
+                    #{('<a class="close" data-dismiss="alert" href="#">&times;</a>' if dismiss) || ""}
                     #{message}
                   </div>
                   """
@@ -84,6 +88,9 @@ do ($ = jQuery) ->
     offset:      
       from:      'top'
       amount:    20
+
+    # Show icons in alert boxes
+    showIcon: true
 
   
   $.bootstrapGrowl.noConflict = ->
