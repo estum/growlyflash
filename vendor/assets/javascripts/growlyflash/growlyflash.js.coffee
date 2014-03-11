@@ -11,7 +11,9 @@ class Growlyflash
     
   constructor: (@context) ->
     @flash_log = []
-    @growl window.flashes if window.flashes?
+    if window.flashes?
+      @growl window.flashes
+      delete window.flashes
     # we have to bind both of ajax-complete events
     # sometimes one of them takes messages and they are skipping
     # but in mostly, they produce duplicates :(  
