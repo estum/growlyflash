@@ -65,4 +65,4 @@ class Growlyflash
 root.Growlyflash = Growlyflash
 
 $ ->
-  new Growlyflash document
+  root.growly = new Growlyflash document unless root.growly
