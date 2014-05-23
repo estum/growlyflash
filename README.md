@@ -45,13 +45,15 @@ $.bootstrapGrowl.defaults = $.extend on, $.bootstrapGrowl.defaults,
   # Show close button
   dismiss:     true
   
-  # Default class suffix for alert boxes. 
-  # Use the following mapping (Flash key => Bootstrap Alert)
-  #   warning: null
-  #   error:   "error"
-  #   notice:  "info"
-  #   success: "success"
+  # Default class suffix for alert boxes.
   type:        null
+  
+  # Use the following mapping (Flash key => Bootstrap Alert)
+  type_mapping:
+    warning: null
+    error  : 'error'
+    notice : 'info'
+    success: 'success'
   
   # Horizontal aligning (left, right or center)
   align:       'right'

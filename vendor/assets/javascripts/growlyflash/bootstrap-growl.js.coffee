@@ -67,12 +67,14 @@ do ($ = jQuery) ->
     dismiss:     true
     
     # Default class suffix for alert boxes. 
-    # Use the following mapping (Flash key => Bootstrap Alert)
-    #   warning: null
-    #   error:   "error"
-    #   notice:  "info"
-    #   success: "success"
     type:        null
+    
+    # Use the following mapping (Flash key => Bootstrap Alert)
+    type_mapping:
+      warning: null
+      error  : 'error'
+      notice : 'info'
+      success: 'success'
     
     # Horizontal aligning (left, right or center)
     align:       'right'

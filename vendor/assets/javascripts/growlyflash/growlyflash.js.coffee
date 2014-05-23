@@ -2,13 +2,7 @@
 
 root = window ? this
 
-class Growlyflash
-  TYPE_MAPPING =
-    warning: null
-    error  : 'error'
-    notice : 'info'
-    success: 'success'
-    
+class Growlyflash    
   constructor: (@context) ->
     @flash_log = []
     if window.flashes?
@@ -22,7 +16,7 @@ class Growlyflash
   growl: (flashes) ->
     for type, msg of flashes when msg?
       @log type: type, msg: msg
-      $.bootstrapGrowl msg, type: TYPE_MAPPING[type]
+      $.bootstrapGrowl msg, type: $.bootstrapGrowl.defaults.type_mapping[type]
   
   log: (xmessage) -> @flash_log.push(xmessage)
   log_isnt_empty: -> @flash_log.length > 0
