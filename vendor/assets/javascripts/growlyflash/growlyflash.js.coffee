@@ -1,7 +1,5 @@
 #= require growlyflash/bootstrap-growl
 
-root = window ? this
-
 class Growlyflash    
   constructor: (@context) ->
     @flash_log = []
@@ -56,7 +54,8 @@ class Growlyflash
     not_matches++ for id, f of messages when (last_log[id].type isnt f.type) and (last_log[id].msg isnt f.msg)
     not_matches > 0
 
-root.Growlyflash = Growlyflash
+window.Growlyflash = Growlyflash
 
-$ ->
-  root.growly = new Growlyflash document unless root.growly
+jQuery ->
+  window.growly ?= new Growlyflash(document)
+  return

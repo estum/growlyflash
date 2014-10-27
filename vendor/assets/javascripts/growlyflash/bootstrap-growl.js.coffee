@@ -1,53 +1,70 @@
 # https://github.com/ifightcrime/bootstrap-growl
 
 do ($ = jQuery) ->
+  class BootstrapGrowl
+    alert_classes_add = (list...) -> 
+      ['bootstrap-growl', 'alert'].concat("alert-#{type}" for type in list when type?)
+    
+    cssval = (val) ->
+      str = "#{val ? 0}"
+      str += "px" if /\d$/.test str
+      str
+    
+    constructor: (@message, @options) ->
+      @alert = ($ do @_build_alert)
+      @alert.css(do @_alert_styles)
+      @alert.appendTo(@options.target)
+      @alert.css(do @_alert_position)
+      @alert.fadeIn()
+      if @options.delay > 0
+        @alert.
+          delay(@options.delay).
+          fadeOut -> ($ @).remove()
+      # body...
+    
+    _build_alert: ->
+      """
+      <div class="#{(alert_classes_add @options.type).join(' ')}">
+        #{@_dismiss()}#{@message}
+      </div>
+      """
+    
+    _dismiss: ->
+      if @options.dismiss then """<a class="close" data-dismiss="alert" href="#">&times;</a>""" else ""
+    
+    _calc_offset: ->
+      spacing = @options.spacing
+      {from, amount} = @options.offset
+      ($ ".bootstrap-growl").each ->
+        amount = Math.max(amount, parseInt(($ @).css(from)) + ($ @).outerHeight() + spacing)
+      amount
+    
+    _alert_styles: ->
+      styles = 
+        position: (if @options.target is 'body' then 'fixed' else 'absolute')
+        width:    (cssval @options.width)
+        display: 'none'
+        zIndex:   9999
+        margin:   0
+      styles[@options.offset.from] = (cssval @_calc_offset())
+      styles
+    
+    _alert_position: ->
+      styles = {}      
+      switch @options.align
+        when "center"
+          styles.left = '50%'
+          styles.marginLeft = "-#{@alert.outerWidth() / 2}px"
+        when "left", "right"
+          styles[@options.align] = (cssval @options.alignAmount)
+      styles
+  
   old = $.bootstrapGrowl
   
-  alert_classes_add = (list...) -> 
-    ['bootstrap-growl', 'alert'].concat("alert-#{type}" for type in list when type?)
-  
-  css_metrics_val = (val) ->
-    str = "#{val ? 0}"
-    str += "px" if /\d$/.test str
-    str
-  
   $.bootstrapGrowl = (message, options) ->
-    {width, delay, spacing, target, align, alignAmount, dismiss, type, offset} = $.extend({}, $.bootstrapGrowl.defaults, options)
-    width = css_metrics_val width
-    alignAmount = css_metrics_val alignAmount
-    
-    box_alert = $ """
-                  <div class="#{alert_classes_add(type).join(" ")}">
-                    #{'<a class="close" data-dismiss="alert" href="#">&times;</a>' if dismiss}
-                    #{message}
-                  </div>
-                  """
-    
-    # calculate any 'stack-up'
-    $(".bootstrap-growl").each ->
-      height = $(@).outerHeight()
-      _from   = parseInt $(@).css offset.from
-      offset.amount = Math.max offset.amount, _from + height + spacing
-    
-    box_alert.css offset.from, css_metrics_val(offset.amount)
-    box_alert.css 
-      position: (if target is 'body' then 'fixed' else 'absolute')
-      width:    width
-      display: 'none'
-      zIndex:   9999
-      margin:   0
-    
-    $(target).append box_alert
-    box_alert.css switch align
-      when "center" then left: '50%', marginLeft: "-#{box_alert.outerWidth() / 2}px"
-      when "left"   then left: alignAmount 
-      else right: alignAmount
-    
-    box_alert.fadeIn()
-    # Only remove after delay if delay is more than 0
-    box_alert.delay(delay).fadeOut(-> $(@).remove()) if delay > 0
-    
-    return this
+    # {width, delay, spacing, target, align, alignAmount, dismiss, type, offset}
+    settings = $.extend(on, {}, $.bootstrapGrowl.defaults, options)    
+    new BootstrapGrowl(message, settings)
   
   
   $.bootstrapGrowl.defaults = 
@@ -86,10 +103,11 @@ do ($ = jQuery) ->
     offset:      
       from:      'top'
       amount:    20
-
+  
+  $.bootstrapGrowl.Constructor = BootstrapGrowl
   
   $.bootstrapGrowl.noConflict = ->
     $.bootstrapGrowl = old
-    return this
+    return
   
-  return this
+  return
