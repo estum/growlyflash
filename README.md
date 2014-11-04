@@ -16,6 +16,10 @@ And then execute:
 ````
 $ bundle
 ````
+Add `after_filter` callback to your controllers (`application_controller.rb` by default):
+````ruby
+after_filter :flash_to_headers, if: :is_xhr_request?
+````
 For non-XHR requests append the following before other javascripts inside `<head>`:
 ````erb
 <%= growlyflash_static_notices %>
