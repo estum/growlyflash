@@ -1,0 +1,23 @@
+$growlyflash-top:     20px !default;
+$growlyflash-side:    20px !default;
+$growlyflash-width:   auto !default;
+$growlyflash-zindex:  9999 !default;
+
+.alert.growlyflash {
+  position: absolute;
+  margin: 0;
+  top: $growlyflash-top;
+  width: $growlyflash-width;
+  z-index: $growlyflash-zindex;
+  
+  &.growlyflash-left {
+    left: $growlyflash-side; }
+  &.growlyflash-right {
+    right: $growlyflash-side; }
+  &.growlyflash-center {
+    left: 50%; }
+}
+
+body > .alert.growlyflash {
+  position: fixed;
+}
