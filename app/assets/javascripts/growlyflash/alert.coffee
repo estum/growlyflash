@@ -7,6 +7,7 @@ Growlyflash.defaults =
   dismiss: yes      # allow to show close button
   spacing: 10       # spacing between alerts
   target:  'body'   # selector to target element where to place alerts
+  title:   no       # switch for adding a title
   type:    null     # bootstrap alert class by default
   class:   ['alert', 'growlyflash', 'fade']
 
@@ -25,9 +26,9 @@ class Growlyflash.FlashStruct
 
 class Growlyflash.Alert
   constructor: (@flash, options) ->
-    {@align, @delay, @dismiss, @msg, @spacing, @target, @type, @class} = options
+    {@title, @align, @delay, @dismiss, @msg, @spacing, @target, @type, @class} = options
     
-    @el = ($ '<div>', class: @_classes().join(' '), html: "#{@_dismiss()}#{@msg}").appendTo(@target)
+    @el = ($ '<div>', class: @_classes().join(' '), html: "#{@_dismiss()}#{@_title()}#{@msg}").appendTo(@target)
     @el.css(@_calc_position()).toggleClass('in')
     @el.delay(@delay).fadeOut(-> ($ @).remove()) if @delay > 0
   
@@ -37,6 +38,10 @@ class Growlyflash.Alert
   _dismiss: ->
     return "" unless @dismiss?
     """<a class="close" data-dismiss="alert" href="#">&times;</a>"""
+  
+  _title: ->
+    return "" unless @title?
+    """<strong>#{@type.charAt(0).toUpperCase()}#{@type.substring(1)}!</strong>"""
   
   _calc_offset: ->
     amount = parseInt(@el.css 'top')
