@@ -5,29 +5,40 @@ module Growlyflash
     extend ActiveSupport::Concern
     
     included do
-      helper_method :growlyflash_static_notices
+      helper_method :growlyflash_static_notices, :growlyhash
     end
     
-    private    
+    module ClassMethods
+      private
+      def use_growlyflash(options = {})
+        append_after_filter :flash_to_headers, options.reverse_merge(if: :is_xhr_request?)
+      end
+      
+      def skip_growlyflash(options = {})
+        skip_after_filter :flash_to_headers, options
+      end
+    end
+    
+    private
     def is_xhr_request?
       request.xhr?
     end
     
     def flash_to_headers
-      _text_flashes = text_flashes
-      response.headers['X-Message'] = URI.escape(_text_flashes.to_json)
+      response.headers['X-Message'] = URI.escape(growlyhash(true).to_json)
       
       # discard flash to prevent it appear again after refreshing page
-      _text_flashes.each_key {|k| flash.discard(k) }
+      growlyhash.each_key {|k| flash.discard(k) }
     end
     
-    def growlyflash_static_notices
+    def growlyflash_static_notices(js_var = 'window.flashes')
       return nil unless flash.any?
-      view_context.javascript_tag "window.flashes = #{text_flashes.except!(:timedout, 'timedout').to_json.html_safe};", defer: 'defer'
+      view_context.javascript_tag "#{js_var} = #{growlyhash.to_json.html_safe};", defer: 'defer'
     end
     
-    def text_flashes
-      flash.to_hash.select {|k, v| v.is_a? String }
+    def growlyhash(force = false)
+      @growlyhash = nil if force
+      @growlyhash ||= flash.to_hash.select {|k, v| v.is_a? String }
     end
   end
 end

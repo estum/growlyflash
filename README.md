@@ -18,18 +18,6 @@ Add this line to your application's Gemfile:
 gem 'growlyflash', '~> 0.5.0'
 ```
 
-To use text flash messages as growl notifications with XHR request, just add this `after_filter`  to your controllers (usually `application_controller.rb`):
-
-```ruby
-after_filter :flash_to_headers, if: :is_xhr_request?
-```
-
-To make notifications also available with non-XHR requests, insert the following line into your layout template inside `<head>` tag before any other javascript:
-
-```erb
-<%= growlyflash_static_notices %>
-```
-
 Require one of the following Growlyflash javascripts depending on your Bootstrap version in `app/assets/javascripts/application.js`:
 
 ```js
@@ -40,10 +28,25 @@ Require one of the following Growlyflash javascripts depending on your Bootstrap
 //= require growlyflash.bs2
 ```
 
-Finally, import Growlyflash style in `app/assets/stylesheets/application.css.scss` after importing Bootstrap styles:
+Import Growlyflash style in `app/assets/stylesheets/application.css.scss` after importing Bootstrap styles:
 
 ```scss
 @import "growlyflash";
+```
+
+To use text flash messages as growl notifications with XHR request, add `use_growlyflash` to your controllers (usually `application_controller.rb`). This is a shorthand for `append_after_filter :flash_to_header, if: :is_xhr_request?` and takes callback parameters like `only`, `except`, `if` or `unless`:
+
+```ruby
+use_growlyflash # except: %i[actions without growlyflash]
+
+# Also there is another shorthand, to skip callbacks:
+# skip_growlyflash only: %i[actions without growlyflash]
+```
+
+To make notifications also available with non-XHR requests, insert the following line into your layout template inside `<head>` tag before any other javascript:
+
+```erb
+<%= growlyflash_static_notices %>
 ```
 
 ## Customize
