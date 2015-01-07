@@ -1,8 +1,5 @@
-require "growlyflash"
-require "rails"
-
 module Growlyflash
-  class Railtie < ::Rails::Railtie
+  class Engine < ::Rails::Engine
     ActiveSupport.on_load :action_controller do
       include Growlyflash::ControllerAdditions
     end

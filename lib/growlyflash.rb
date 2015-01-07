@@ -1,2 +1,2 @@
 require 'growlyflash/controller_additions'
-require 'growlyflash/railtie'
+require 'growlyflash/engine' if defined?(Rails)

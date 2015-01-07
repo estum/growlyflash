@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'growlyflash'
-  spec.version       = '0.6.0'
+  spec.version       = '0.6.1'
   spec.authors       = ['Tõnis Simo']
   spec.email         = ['anton.estum@gmail.com']
   spec.homepage      = 'https://github.com/estum/growlyflash'
