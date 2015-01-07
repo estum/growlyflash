@@ -56,7 +56,7 @@ class Growlyflash.Alert
     """<a class="close" data-dismiss="alert" href="#">&times;</a>"""
   
   _title: ->
-    return "" unless @title?
+    return ""  if @title is no
     """<strong>#{@type.charAt(0).toUpperCase()}#{@type.substring(1)}!</strong>"""
   
   calc_top_offset: ->
