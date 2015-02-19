@@ -15,7 +15,7 @@ Warning! Current version breaks integration from older releases, so, if you want
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'growlyflash', '~> 0.5.0'
+gem 'growlyflash', '~> 0.6.0'
 ```
 
 Require one of the following Growlyflash javascripts depending on your Bootstrap version in `app/assets/javascripts/application.js`:
@@ -81,17 +81,11 @@ Also it doesn't steel focus from toggled elements like dropdowns and works fine 
 
 ```coffee
 jQuery ->
-  $(document).on 'click.alert.data-api', '[data-dismiss="alert"]', (e) ->
+  $(document).on "touchstart.alert click.alert", ".growlyflash", (e) ->
     e.stopPropagation()
-    off
-  
-  $(document).on 'touchstart click', ".bootstrap-growl", (e) ->
-    e.stopPropagation()
-    $('[data-dismiss="alert"]', @).click()
+    ($ @).alert 'close'
     off
 ```
-
-Also
 
 ## Contributing
 
