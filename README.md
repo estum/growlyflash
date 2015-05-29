@@ -34,7 +34,7 @@ Import Growlyflash style in `app/assets/stylesheets/application.css.scss` after 
 @import "growlyflash";
 ```
 
-To use text flash messages as growl notifications with XHR request, add `use_growlyflash` to your controllers (usually `application_controller.rb`). This is a shorthand for `append_after_filter :flash_to_header, if: :is_xhr_request?` and takes callback parameters like `only`, `except`, `if` or `unless`:
+To use text flash messages as growl notifications with XHR request, add `use_growlyflash` to your controllers (usually `application_controller.rb`). This is a shorthand for `append_after_filter :flash_to_header, if: "request.xhr?"` and takes callback parameters like `only`, `except`, `if` or `unless`:
 
 ```ruby
 use_growlyflash # except: %i[actions without growlyflash]
@@ -76,7 +76,7 @@ $growlyflash-zindex:  9999 !default;
 @import "growlyflash";
 ```
 
-Insert the following if you want to close alert boxes by clicking on themselves. 
+Insert the following if you want to close alert boxes by clicking on themselves.
 Also it doesn't steel focus from toggled elements like dropdowns and works fine with touch devices, so I advise to use it:
 
 ```coffee

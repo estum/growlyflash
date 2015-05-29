@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rails', '>= 3.2.0', '<= 5.0.0'
-gem 'rake', require: false
 
 group :test do
   gem 'minitest'
