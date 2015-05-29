@@ -1,10 +1,13 @@
 require 'bundler/setup'
 require 'minitest/autorun'
+require 'rails'
 require 'growlyflash'
 require 'action_controller'
 
 # Ensure backward compatibility with Minitest 4
 Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
+
+ActiveSupport.test_order = :sorted
 
 require "minitest/reporters"
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new(:color => true)
@@ -15,7 +18,7 @@ module TestHelper
     get ':controller(/:action(/:id))'
     get ':controller(/:action)'
   end
-  
+
   ActionController::Base.send :include, Routes.url_helpers
 end
 
