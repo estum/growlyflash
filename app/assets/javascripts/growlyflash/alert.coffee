@@ -7,6 +7,7 @@ Growlyflash.defaults =
   dismiss: yes      # allow to show close button
   spacing: 10       # spacing between alerts
   target:  'body'   # selector to target element where to place alerts
+  textCenter: true  # if true, centers text in alert
   title:   no       # switch for adding a title
   type:    null     # bootstrap alert class by default
   class:   ['alert', 'growlyflash', 'fade']
@@ -30,11 +31,16 @@ class Growlyflash.FlashStruct
 
 class Growlyflash.Alert
   constructor: (@flash, options) ->
-    {@title, @align, @dismiss, @msg, @spacing, @type, @class} = options
+    {@title, @align, @dismiss, @msg, @spacing, @type, @class, @textCenter} = options
+    
+    if @textCenter 
+      htmlString = "<div class='text-center'>#{@_dismiss()}#{@_title()}#{@msg}</div>" 
+    else 
+      htmlString = "#{@_dismiss()}#{@_title()}#{@msg}"
     
     @el = ($ '<div>', 
       class: @_classes().join(' ')
-      html: "#{@_dismiss()}#{@_title()}#{@msg}"
+      html: htmlString
     ).appendTo(options.target)
     
     options.before_show.call(this, options)
