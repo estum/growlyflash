@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.version       = Growlyflash::VERSION
   spec.authors       = ['Tõnis Simo']
   spec.email         = ['anton.estum@gmail.com']
-  spec.summary       = %q{Growl-styled flash messages for Ruby on Rails with Bootstrap.}
-  spec.description   = %q{Growl-styled flash messages for Ruby on Rails with Bootstrap. For XHR requests flash messages are transfering in 'X-Messages' headers, otherwise they are storing in js variables.}
+  spec.summary       = %q{Popup ActionDispatch::Flash within Bootstrap alert in Rails app like a growl notification.}
+  spec.description   = %q{This gem popups Rails' ActionDispatch::Flash within Bootstrap alert like a growl notification. It serves messages with both of AJAX (XHR) and regular requests inside HTTP headers.}
   spec.homepage      = 'https://github.com/estum/growlyflash'
   spec.license       = "MIT"
 

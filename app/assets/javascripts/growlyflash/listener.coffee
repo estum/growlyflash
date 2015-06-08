@@ -1,40 +1,40 @@
 class Growlyflash.Listener
+  # Alerts stack
+  class Stack
+    constructor: (@items...) ->
+
+    purge: ->
+      setTimeout (=> @items.splice(0)), 100
+
+    push: (alert, dumped) ->
+      $.growlyflash(alert)
+      @items.push(dumped ? alert.toString())
+
+    push_only_fresh: (alerts) ->
+      recent = @items[-alerts.length..]
+      for alert in alerts
+        dumped = alert.toString()
+        @push(alert, dumped) if dumped not in recent
+      do @purge
+
   HEADER = 'X-Message'
   EVENTS = 'ajax:complete ajaxComplete'
-  
-  # Alerts stack
-  class Stack extends Array
-    constructor: (items...) ->
-      @splice 0, 0, items...
-    has_uniq_in: (alerts, counter = 0) ->
-      return true unless @length > 0
-      recent = @slice -alerts.length
-      counter++ for id, item of alerts when recent[id].isnt_equal? item
-      counter > 0
-    push_all: (alerts) ->
-      @push alert.growl() for alert in alerts
-      this
-    push_once: (alerts) ->
-      @push_all alerts if @has_uniq_in alerts
-      @purge()
-    purge: ->
-      setTimeout (=> @splice 0), 100
-  
+
   process = (alerts = {}) ->
     new Growlyflash.FlashStruct(msg, type) for type, msg of alerts when msg?
-  
+
   process_from_header = (source) ->
     return [] unless source?
-    process $.parseJSON(decodeURIComponent source)
-  
+    process $.parseJSON(decodeURIComponent(source))
+
   constructor: (context) ->
     @stack ?= new Stack()
     @process_static() if window.flashes?
     ($ context).on EVENTS, (_, xhr) =>
-      @stack.push_once process_from_header(xhr.getResponseHeader HEADER)
-      return
+      @stack.push_only_fresh process_from_header(xhr.getResponseHeader(HEADER))
+
   process_static: ->
-    @stack.push_all process(window.flashes)
+    @stack.push alert for alert in process(window.flashes)
     delete window.flashes
 
 Growlyflash.listen_on = (context) ->

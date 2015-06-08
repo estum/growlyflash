@@ -5,3 +5,5 @@ Growlyflash.KEY_MAPPING =
   error:   'error'
   notice:  'info'
   success: 'success'
+
+Growlyflash.DISMISS = """<a class="close" data-dismiss="alert" href="#">&times;</a>"""
