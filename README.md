@@ -15,16 +15,20 @@ Warning! Current version breaks integration from older releases, so, if you want
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'growlyflash', '~> 0.6.0'
+gem 'growlyflash'
 ```
 
 Require one of the following Growlyflash javascripts depending on your Bootstrap version in `app/assets/javascripts/application.js`:
 
-```js
-// for Bootstrap 3
-//= require growlyflash
+For Bootsrap 3
 
-// for Bootstrap 2
+```js
+//= require growlyflash
+```
+
+For Bootstrap 2
+
+```js
 //= require growlyflash.bs2
 ```
 
