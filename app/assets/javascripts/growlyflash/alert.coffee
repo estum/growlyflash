@@ -61,7 +61,11 @@ class Growlyflash
       list
 
     show:  => @el.toggleClass('in', on)
-    close: => @el.alert?('close')
+    close: =>
+      @el.fadeOut( =>
+        $(@).remove()
+      )
+
 
     calc_top_offset: ({spacing}) ->
       amount = _top(@el)
