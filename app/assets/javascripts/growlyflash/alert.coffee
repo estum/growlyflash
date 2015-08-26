@@ -19,6 +19,16 @@ class Growlyflash
     notice:  'info'
     success: 'success'
 
+  _build_shorthand = (type) -> (msg) ->
+    $.growlyflash(new Growlyflash.FlashStruct(msg, type))
+
+  @build_shorthands = ->
+    for type, name of @KEY_MAPPING
+      Growlyflash[type] ?= _build_shorthand(type)
+      if name isnt type
+        Growlyflash[name] ?= Growlyflash[type]
+    return
+
   @DISMISS = """<button type="close" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>"""
 
   _titleize = (s) -> s.replace /^./, (m) -> do m.toUpperCase
