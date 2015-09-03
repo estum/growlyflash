@@ -73,7 +73,7 @@ class Growlyflash
     show:  => @el.toggleClass('in', on)
     close: =>
       @el.fadeOut( =>
-        $(@).remove()
+        $(@.el).remove()
       )
 
 
