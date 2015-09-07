@@ -72,10 +72,7 @@ class Growlyflash
 
     show:  => @el.toggleClass('in', on)
     close: =>
-      @el.fadeOut( =>
-        $(@).remove()
-      )
-
+      @el.fadeOut(=> @el.remove())
 
     calc_top_offset: ({spacing}) ->
       amount = _top(@el)
