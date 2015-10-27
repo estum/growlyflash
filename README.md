@@ -20,7 +20,7 @@ gem 'growlyflash'
 
 Require one of the following Growlyflash javascripts depending on your Bootstrap version in `app/assets/javascripts/application.js`:
 
-For Bootsrap 3
+For Bootstrap 3
 
 ```js
 //= require growlyflash
