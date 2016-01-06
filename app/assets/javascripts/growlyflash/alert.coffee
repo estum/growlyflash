@@ -82,7 +82,7 @@ class Growlyflash
       css.marginLeft = "-#{@el.outerWidth() / 2}px" if @opts.align is 'center'
       css
 
-  @alert = (flash, options = {}) ->
+  @growl = (flash, options = {}) ->
     options = $.extend(on, {}, Growlyflash.defaults, type: flash.type, options)
     alert   = new Growlyflash.Alert(flash, options)
     if flash instanceof Growlyflash.FlashStruct then flash else alert
@@ -90,10 +90,10 @@ class Growlyflash
   @build_shorthands = ->
     for type, name of @KEY_MAPPING
       Growlyflash[type] ?= (msg) ->
-        Growlyflash.alert(new Growlyflash.FlashStruct(msg, type))
+        Growlyflash.growl(new Growlyflash.FlashStruct(msg, type))
       if name isnt type
         Growlyflash[name] ?= Growlyflash[type]
     return
 
 window.Growlyflash = Growlyflash
-jQuery.growlyflash = Growlyflash.alert
+jQuery.growlyflash = Growlyflash.growl

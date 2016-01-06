@@ -7,9 +7,9 @@ class Growlyflash.Listener
       setTimeout (=> @items.splice(0)), 100
 
     push: (alert, dumped) ->
-      Growlyflash.alert(alert)
       dumped ?= alert.toString()
       console.log("Add to Growlyflash stack: ", dumped) if Growlyflash.debug
+      Growlyflash.growl(alert)
       @items.push(dumped)
 
     push_only_fresh: (alerts) ->
