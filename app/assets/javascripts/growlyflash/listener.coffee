@@ -8,7 +8,9 @@ class Growlyflash.Listener
 
     push: (alert, dumped) ->
       Growlyflash.alert(alert)
-      @items.push(dumped ? alert.toString())
+      dumped ?= alert.toString()
+      console.log("Add to Growlyflash stack: ", dumped) if Growlyflash.debug
+      @items.push(dumped)
 
     push_only_fresh: (alerts) ->
       recent = @items[-alerts.length..]

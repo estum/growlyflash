@@ -1,4 +1,6 @@
 class Growlyflash
+  @debug = off
+
   @defaults =
     align:   'right'  # horizontal aligning (left, right or center)
     delay:   4000     # auto-dismiss timeout (false to disable auto-dismiss)
@@ -49,6 +51,9 @@ class Growlyflash
       @el.appendTo(target)
 
       before_show?.call(this)
+
+      console.debug(@flash) if Growlyflash.debug
+
       @show()
       setTimeout(@close, @opts.delay) if delay
 
@@ -60,7 +65,9 @@ class Growlyflash
       add 'growlyflash', @opts.align if @opts.align?
       list
 
-    show:  => @el.toggleClass('in', on)
+    show: =>
+      @el.toggleClass('in', on)
+
     close: =>
       @el.fadeOut(=> @el.remove())
 
