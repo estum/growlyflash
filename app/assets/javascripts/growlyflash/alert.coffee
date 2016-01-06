@@ -19,16 +19,6 @@ class Growlyflash
     notice:  'info'
     success: 'success'
 
-  _build_shorthand = (type) -> (msg) ->
-    $.growlyflash(new Growlyflash.FlashStruct(msg, type))
-
-  @build_shorthands = ->
-    for type, name of @KEY_MAPPING
-      Growlyflash[type] ?= _build_shorthand(type)
-      if name isnt type
-        Growlyflash[name] ?= Growlyflash[type]
-    return
-
   @DISMISS = """<button type="close" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>"""
 
   _titleize = (s) -> s.replace /^./, (m) -> do m.toUpperCase
@@ -85,9 +75,18 @@ class Growlyflash
       css.marginLeft = "-#{@el.outerWidth() / 2}px" if @opts.align is 'center'
       css
 
-window.Growlyflash = Growlyflash
+  @alert = (flash, options = {}) ->
+    options = $.extend(on, {}, Growlyflash.defaults, type: flash.type, options)
+    alert   = new Growlyflash.Alert(flash, options)
+    if flash instanceof Growlyflash.FlashStruct then flash else alert
 
-$.growlyflash = (flash, options = {}) ->
-  options = $.extend on, {}, Growlyflash.defaults, type: flash.type, options
-  alert   = new Growlyflash.Alert(flash, options)
-  if flash instanceof Growlyflash.FlashStruct then flash else alert
+  @build_shorthands = ->
+    for type, name of @KEY_MAPPING
+      Growlyflash[type] ?= (msg) ->
+        Growlyflash.alert(new Growlyflash.FlashStruct(msg, type))
+      if name isnt type
+        Growlyflash[name] ?= Growlyflash[type]
+    return
+
+window.Growlyflash = Growlyflash
+jQuery.growlyflash = Growlyflash.alert

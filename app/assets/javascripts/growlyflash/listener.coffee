@@ -7,7 +7,7 @@ class Growlyflash.Listener
       setTimeout (=> @items.splice(0)), 100
 
     push: (alert, dumped) ->
-      $.growlyflash(alert)
+      Growlyflash.alert(alert)
       @items.push(dumped ? alert.toString())
 
     push_only_fresh: (alerts) ->
