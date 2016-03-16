@@ -3,7 +3,9 @@ module Growlyflash
     def self.included(base)
       base.module_eval do
         extend ClassMethods
-        helper_method :growlyflash_static_notices, :growlyhash
+        if respond_to?(:helper_method)
+          helper_method :growlyflash_static_notices, :growlyhash
+        end
       end
     end
 
