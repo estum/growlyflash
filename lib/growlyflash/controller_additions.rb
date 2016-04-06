@@ -13,11 +13,11 @@ module Growlyflash
       private
 
       def use_growlyflash(options = {})
-        append_after_filter :flash_to_headers, options.reverse_merge(if: "request.xhr?")
+        append_after_action :flash_to_headers, options.reverse_merge(if: "request.xhr?")
       end
 
       def skip_growlyflash(options = {})
-        skip_after_filter :flash_to_headers, options
+        skip_after_action :flash_to_headers, options
       end
     end
 

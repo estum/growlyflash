@@ -38,7 +38,7 @@ Import Growlyflash style in `app/assets/stylesheets/application.css.scss` after 
 @import "growlyflash";
 ```
 
-To use text flash messages as growl notifications with XHR request, add `use_growlyflash` to your controllers (usually `application_controller.rb`). This is a shorthand for `append_after_filter :flash_to_header, if: "request.xhr?"` and takes callback parameters like `only`, `except`, `if` or `unless`:
+To use text flash messages as growl notifications with XHR request, add `use_growlyflash` to your controllers (usually `application_controller.rb`). This is a shorthand for `append_after_action :flash_to_header, if: "request.xhr?"` and takes callback parameters like `only`, `except`, `if` or `unless`:
 
 ```ruby
 use_growlyflash # except: %i[actions without growlyflash]
