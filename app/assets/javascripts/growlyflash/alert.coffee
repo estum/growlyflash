@@ -44,7 +44,7 @@ class Growlyflash
 
       html = ""
       html += h.dismiss() if dismiss
-      html += h.title(@opts.type) if title? and @opts.type?
+      html += h.title(@opts.type) if title and @opts.type?
       html += @flash.msg
 
       @el = ($ '<div>', html: html, class: @class_list().join(' '), role: "alert")
