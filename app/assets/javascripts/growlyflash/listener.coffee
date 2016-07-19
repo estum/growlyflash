@@ -19,8 +19,8 @@ class Growlyflash.Listener
         @push(alert, dumped) if dumped not in recent
       do @purge
 
-  HEADER = 'X-Message'
-  EVENTS = 'ajax:complete ajaxComplete'
+  @HEADER = 'X-Message'
+  @EVENTS = 'ajax:complete ajaxComplete turbolinks:request-end'
 
   process = (alerts = {}) ->
     new Growlyflash.FlashStruct(msg, type) for type, msg of alerts when msg?
@@ -32,8 +32,9 @@ class Growlyflash.Listener
   constructor: (context) ->
     @stack ?= new Stack()
     @process_static() if window.flashes?
-    ($ context).on EVENTS, (_, xhr) =>
-      @stack.push_only_fresh process_from_header(xhr.getResponseHeader(HEADER))
+    ($ context).on Growlyflash.Listener.EVENTS, (event, xhr) =>
+      xhr ?= event.data?.xhr
+      @stack.push_only_fresh process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
 
   process_static: ->
     @stack.push alert for alert in process(window.flashes)
