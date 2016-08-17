@@ -34,7 +34,7 @@ class Growlyflash.Listener
     @process_static() if window.flashes?
     ($ context).on Growlyflash.Listener.EVENTS, (event, xhr) =>
       xhr ?= event.data?.xhr
-      @stack.push_only_fresh process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
+      @stack.push_only_fresh process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER)) if xhr
 
   process_static: ->
     @stack.push alert for alert in process(window.flashes)
