@@ -1,4 +1,4 @@
-class Growlyflash.Listener
+class Listener
   # Alerts stack
   class Stack
     constructor: (@items...) ->
@@ -20,7 +20,7 @@ class Growlyflash.Listener
       do @purge
 
   @HEADER = 'X-Message'
-  @EVENTS = 'ajax:complete ajaxComplete turbolinks:request-end'
+  @EVENTS = 'ajax:complete ajaxComplete'
 
   process = (alerts = {}) ->
     new Growlyflash.FlashStruct(msg, type) for type, msg of alerts when msg?
@@ -34,11 +34,13 @@ class Growlyflash.Listener
     @process_static() if window.flashes?
     ($ context).on Growlyflash.Listener.EVENTS, (event, xhr) =>
       xhr ?= event.data?.xhr
-      @stack.push_only_fresh process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
+      source = process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
+      @stack.push_only_fresh source
 
   process_static: ->
     @stack.push alert for alert in process(window.flashes)
     delete window.flashes
 
-Growlyflash.listen_on = (context) ->
+@Growlyflash.Listener = Listener
+@Growlyflash.listen_on = (context) ->
   @listener ?= new @Listener(context)

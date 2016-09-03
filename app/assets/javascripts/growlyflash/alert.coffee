@@ -1,4 +1,4 @@
-class Growlyflash
+class @Growlyflash
   @debug = off
 
   @defaults =
@@ -48,7 +48,7 @@ class Growlyflash
       html += @flash.msg
 
       @el = ($ '<div>', html: html, class: @class_list().join(' '), role: "alert")
-      @el.appendTo(target)
+      @el = @el.appendTo(($ target))
 
       before_show?.call(this)
 
@@ -95,5 +95,4 @@ class Growlyflash
         Growlyflash[name] ?= Growlyflash[type]
     return
 
-window.Growlyflash = Growlyflash
 jQuery.growlyflash = Growlyflash.growl
