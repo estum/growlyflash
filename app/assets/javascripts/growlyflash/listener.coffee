@@ -33,9 +33,10 @@ class Listener
     @stack ?= new Stack()
     @process_static() if window.flashes?
     ($ context).on Growlyflash.Listener.EVENTS, (event, xhr) =>
-      xhr ?= event.data?.xhr
-      source = process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
-      @stack.push_only_fresh source
+      if xhr ?= event.data?.xhr
+        source = process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
+        @stack.push_only_fresh source
+      return
 
   process_static: ->
     @stack.push alert for alert in process(window.flashes)
