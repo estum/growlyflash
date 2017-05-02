@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in growlyflash.gemspec
 gemspec
 
-gem 'rails', '>= 3.2.0', '<= 5.0.0'
+gem 'rails', '>= 3.2.0', '<= 5.1.0'
 
 group :test do
   gem 'minitest'

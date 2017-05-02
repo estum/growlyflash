@@ -20,9 +20,17 @@ module ActionController
       end
       
       tests MyController
+
+      def call_xhr_action(action)
+        if Rails::VERSION::MAJOR < 5
+          xhr :get, action
+        else
+          get action, xhr: true
+        end
+      end
       
       def test_xhr_use_growlyflash
-        xhr :get, :xhr_use_growlyflash
+        call_xhr_action :xhr_use_growlyflash
         
         assert_response 200
         refute_nil @response.headers['X-Message']
@@ -30,8 +38,8 @@ module ActionController
       end
       
       def test_xhr_skip_growlyflash
-        xhr :get, :xhr_skip_growlyflash
-        
+        call_xhr_action :xhr_skip_growlyflash
+
         assert_response 200
         assert_nil @response.headers['X-Message']
       end
