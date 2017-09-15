@@ -53,6 +53,16 @@ To make notifications also available with non-XHR requests, insert the following
 <%= growlyflash_static_notices %>
 ```
 
+If you want your website to be compliant with Content-Security-Policy, and
+especially avoid `script-src: 'unsafe-inline'`, you can use another helper to
+render an html tag with data attributes instead of injecting javascript code
+into your page:
+
+```erb
+<%= growlyflash_tag %>
+```
+
+
 ## Customize
 
 If you want to change default options, you can override them somewhere in your coffee/js:

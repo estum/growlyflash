@@ -31,16 +31,20 @@ class Listener
 
   constructor: (context) ->
     @stack ?= new Stack()
-    @process_static() if window.flashes?
+    @process_static(context)
     ($ context).on Growlyflash.Listener.EVENTS, (event, xhr) =>
       if xhr ?= event.data?.xhr
         source = process_from_header(xhr.getResponseHeader(Growlyflash.Listener.HEADER))
         @stack.push_only_fresh source
       return
 
-  process_static: ->
-    @stack.push alert for alert in process(window.flashes)
-    delete window.flashes
+  process_static: (context)->
+    if tag = context.getElementById('growlyflash-tag')
+      tag_flashes = JSON.parse(tag.getAttribute('data-flashes'))
+      @stack.push alert for alert in process(tag_flashes)
+    else if window.flashes?
+      @stack.push alert for alert in process(window.flashes)
+      delete window.flashes 
 
 @Growlyflash.Listener = Listener
 @Growlyflash.listen_on = (context) ->

@@ -4,7 +4,7 @@ module Growlyflash
       base.module_eval do
         extend ClassMethods
         if respond_to?(:helper_method)
-          helper_method :growlyflash_static_notices, :growlyhash
+          helper_method :growlyflash_static_notices, :growlyhash, :growlyflash_tag
         end
       end
     end
@@ -36,6 +36,16 @@ module Growlyflash
       return if flash.empty?
       script = "#{js_var} = #{growlyhash.to_json.html_safe};".freeze
       view_context.javascript_tag(script, defer: 'defer')
+    end
+
+    # View helper which render a tag with flashes messages in data attribute.
+    def growlyflash_tag
+      return if flash.empty?
+      view_context.tag(
+        :div,
+        id: 'growlyflash-tag',
+        'data-flashes': growlyhash.to_json.html_safe
+      )
     end
 
     # Hash with available growl flash messages which contains a string object.
