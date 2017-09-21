@@ -23,9 +23,14 @@ module Growlyflash
 
     protected
 
+    def pause_growlyflash
+      @pause_growlyflash = true
+    end  
+
     # Dumps available messages to headers and discards them to prevent appear
     # it again after refreshing a page
     def flash_to_headers
+      return if @pause_growlyflash
       response.headers['X-Message'] = URI.escape(growlyhash(true).to_json)
       growlyhash.each_key { |k| flash.discard(k) }
     end
