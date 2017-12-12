@@ -12,12 +12,12 @@ module Growlyflash
     module ClassMethods
       private
 
-      def use_growlyflash(options = {})
-        append_after_action :flash_to_headers, options.reverse_merge(if: "request.xhr?")
+      def use_growlyflash(*args)
+        append_after_action :flash_to_headers, *args
       end
 
-      def skip_growlyflash(options = {})
-        skip_after_action :flash_to_headers, options
+      def skip_growlyflash(*args)
+        skip_after_action :flash_to_headers, *args
       end
     end
 
@@ -26,8 +26,10 @@ module Growlyflash
     # Dumps available messages to headers and discards them to prevent appear
     # it again after refreshing a page
     def flash_to_headers
-      response.headers['X-Message'] = URI.escape(growlyhash(true).to_json)
-      growlyhash.each_key { |k| flash.discard(k) }
+      if response.xhr? && growlyhash(true).size > 0
+        response.headers['X-Message'] = URI.escape(growlyhash.to_json)
+        growlyhash.each_key { |k| flash.discard(k) }
+      end
     end
 
     # View helper method which renders flash messages to js variable if they
