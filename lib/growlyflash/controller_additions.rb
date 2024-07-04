@@ -27,7 +27,7 @@ module Growlyflash
     # it again after refreshing a page
     def flash_to_headers
       if request.xhr? && growlyhash(true).size > 0
-        response.headers['X-Message'] = URI.escape(growlyhash.to_json)
+        response.headers['X-Message'] = ERB::Util.url_encode(growlyhash.to_json)
         growlyhash.each_key { |k| flash.discard(k) }
       end
     end
